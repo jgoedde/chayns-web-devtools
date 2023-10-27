@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "chayns-web-devtools",
   "version": "0.0.1",
-  "description": "chrome extension boilerplate",
+  "description": "Chrome Extension for reading chayns environment from chayns sites.\n\n",
   "license": "MIT",
   "repository": {
     "type": "git",
