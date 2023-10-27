@@ -6,7 +6,7 @@ export function NoChaynsEnvFound() {
   const [, second] = useChaynsStorage();
   const icon = <IconInfoCircle />;
   return (
-    <Alert variant="light" color="yellow" title="Chayns" icon={icon}>
+    <Alert variant="light" color="yellow" title="Chayns" icon={icon} my={'md'}>
       Es wurde kein chayns Environment auf der aktuellen Page gefunden.{' '}
       <Anchor
         size={'sm'}
