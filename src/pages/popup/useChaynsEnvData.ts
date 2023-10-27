@@ -5,7 +5,7 @@ export function useChaynsEnvData() {
   const [isTimeout, setIsTimeout] = useState<boolean>(false);
   const [data] = useChaynsStorage(); // assuming it from some custom hooks or module
 
-  const setupTimeout = (delay = 5000) => {
+  const setupTimeout = (delay = 7500) => {
     const timer = setTimeout(() => {
       setIsTimeout(true);
     }, delay);
