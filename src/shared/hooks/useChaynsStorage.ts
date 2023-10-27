@@ -2,26 +2,30 @@ import { createChromeStorageStateHookLocal } from 'use-chrome-storage';
 
 export const useChaynsStorage = createChromeStorageStateHookLocal('chayns-data', { isChayns: false } as {
   lastQueryTime?: number;
-} & (Chayns | ChaynsAndAuthorized | NoChayns));
+} & (ChaynsAndAuthorized | ChaynsNotAuthorized | NoChayns));
 
 type NoChayns = {
   isChayns: false;
 };
 
 type Chayns = {
+  isAuthorized: boolean;
+  isChayns: true;
   siteId: string;
   pageId: number;
-  isChayns: true;
   locationId: number;
   domain: string;
-  isAuthorized: boolean;
+};
+
+type ChaynsNotAuthorized = Chayns & {
+  isAuthorized: false;
 };
 
 type ChaynsAndAuthorized = Chayns & {
+  isAuthorized: true;
   tobitAccessToken: string;
   tobitUserId: number;
   firstName: string;
   lastName: string;
-  personId: number;
-  isAuthorized: true;
+  personId: string;
 };
