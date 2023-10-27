@@ -14,7 +14,11 @@ export const CopyableDataRow: FC<Props> = ({ label, value }) => {
   return (
     <Table.Tr>
       <Table.Td>{label}</Table.Td>
-      <Table.Td style={{ cursor: 'pointer' }}>
+      <Table.Td
+        style={{ cursor: 'pointer' }}
+        align={'right'}
+        // TODO: Make this configurable
+      >
         <Tooltip
           label={
             <Group>
