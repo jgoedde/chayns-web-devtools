@@ -18,7 +18,7 @@ function init() {
   const root = createRoot(appContainer);
   root.render(
     <MantineProvider>
-      <Container size={'lg'} h={'600'} w={300}>
+      <Container>
         <Popup />
       </Container>
     </MantineProvider>,
