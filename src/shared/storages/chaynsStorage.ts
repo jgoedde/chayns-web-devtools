@@ -1,20 +1,40 @@
 import { BaseStorage, createStorage, StorageType } from '@src/shared/storages/base';
+import { z } from 'zod';
 
-export type Chayns = {
-  todo: string
-}
+export type ChaynsAuthorizedStorageData = z.infer<typeof ChaynsAuthorizedStorageDataSchema>;
 
-type ChaynsStorage = BaseStorage<Chayns> & {
-  setValue: (value:Chayns) => void;
+export const ChaynsAuthorizedStorageDataSchema = z.object({
+  tobitAccessToken: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  personId: z.string(),
+  userId: z.number(),
+});
+
+export type BaseChaynsStorageData = z.infer<typeof BaseChaynsStorageDataSchema>;
+
+export const BaseChaynsStorageDataSchema = z.object({
+  siteId: z.string(),
+  pageId: z.number(),
+});
+
+export type NonChaynsSiteStorageData = {};
+
+export type ChaynsStorageData =
+  | NonChaynsSiteStorageData
+  | ((BaseChaynsStorageData & ChaynsAuthorizedStorageData) | BaseChaynsStorageData);
+
+type ChaynsStorage = BaseStorage<ChaynsStorageData> & {
+  setValue: (value: ChaynsStorageData) => void;
 };
 
-const storage = createStorage<Chayns>('chayns-storage-key', {todo:''}, {
+const storage = createStorage<ChaynsStorageData>('chayns-storage-key', undefined, {
   storageType: StorageType.Local,
 });
 
 export const chaynsStorage: ChaynsStorage = {
   ...storage,
-  setValue: (value)=>{
-    void storage.set(value)
-  }
+  setValue: value => {
+    void storage.set(value);
+  },
 };
