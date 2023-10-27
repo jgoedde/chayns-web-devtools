@@ -4,6 +4,8 @@ import '@pages/popup/index.css';
 import Popup from '@pages/popup/Popup';
 import refreshOnUpdate from 'virtual:reload-on-update-in-view';
 import { attachTwindStyle } from '@src/shared/style/twind';
+import { Container, MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
 
 refreshOnUpdate('pages/popup');
 
@@ -14,7 +16,13 @@ function init() {
   }
   attachTwindStyle(appContainer, document);
   const root = createRoot(appContainer);
-  root.render(<Popup />);
+  root.render(
+    <MantineProvider>
+      <Container size={'lg'} h={'600'} w={300}>
+        <Popup />
+      </Container>
+    </MantineProvider>,
+  );
 }
 
 init();
