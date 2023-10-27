@@ -1,43 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
+import { NoChaynsEnvFound } from '@pages/popup/NoChaynsEnvFound';
+import { useChaynsEnvData } from '@pages/popup/useChaynsEnvData';
+import { Anchor, Center, Table, Title } from '@mantine/core';
+import { WaitingForData } from '@pages/popup/WaitingForData';
+import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
 
 const Popup = () => {
-  const [data, setData] = useState<{
-    isWaiting: boolean;
-    tobitAccessToken?: string;
-    tobitUserId?: number;
-    firstName?: string;
-    lastName?: string;
-    personId?: number;
-    siteId?: string;
-    pageId?: number;
-    locationId?: number;
-  }>({
-    isWaiting: true,
-  });
+  const { data, isWaiting } = useChaynsEnvData();
 
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      setData({
-        isWaiting: false,
-        firstName: request.data.appUser?.firstName,
-        lastName: request.data.appUser?.lastName,
-        locationId: request.data.appInfo.locationId,
-        pageId: request.data.appInfo.tappSelected.id,
-        personId: request.data.appUser?.personId,
-        siteId: request.data.appInfo.siteId,
-        tobitAccessToken: request.data.appUser?.tobitAccessToken,
-        tobitUserId: request.data.appUser?.tobitUserId,
-      });
-    });
+  if (isWaiting) {
+    return <WaitingForData />;
+  }
 
-    return () => {
-      chrome.runtime.onMessage.removeListener(() => {});
-    };
-  }, []);
+  if (!data.isChayns) return <NoChaynsEnvFound />;
 
-  return <pre>{JSON.stringify(data, undefined, 2)}</pre>;
+  return (
+    <div>
+      <Center mt={'sm'}>
+        <Anchor href={'https://' + data.domain} target={'_blank'}>
+          <Title size={'h2'}>{data.domain}</Title>
+        </Anchor>
+      </Center>
+
+      <Table mt={'md'}>
+        <Table.Tbody>
+          <CopyableDataRow label={'LocationId'} value={data.locationId} />
+          <CopyableDataRow label={'SiteId'} value={data.siteId} />
+          <CopyableDataRow label={'PageId'} value={data.pageId} />
+          <CopyableDataRow label={'Domain'} value={data.domain} />
+        </Table.Tbody>
+      </Table>
+    </div>
+  );
 };
 
 export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);
