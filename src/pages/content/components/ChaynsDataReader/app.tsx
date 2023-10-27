@@ -11,7 +11,7 @@ export default function App() {
       if (!data.data.includes('TobitAccessToken')) return;
       const chaynsInfo = humps(JSON.parse(data.data.replace('chayns.ajaxTab.jsoncall:', ''))?.retVal);
 
-      const isAuthorized = chaynsInfo.appUser != null;
+      const isAuthorized = Object.keys(chaynsInfo.appUser).length > 0;
 
       setData({
         isAuthorized: isAuthorized,
