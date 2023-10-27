@@ -24,6 +24,8 @@ export type ChaynsStorageData =
   | NonChaynsSiteStorageData
   | ((BaseChaynsStorageData & ChaynsAuthorizedStorageData) | BaseChaynsStorageData);
 
+export const ChaynsStorageDataSchema = z.union([BaseChaynsStorageDataSchema, ChaynsAuthorizedStorageDataSchema]);
+
 type ChaynsStorage = BaseStorage<ChaynsStorageData> & {
   setValue: (value: ChaynsStorageData) => void;
 };
