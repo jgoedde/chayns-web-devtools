@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
-import useStorage from '@src/shared/hooks/useStorage';
-import { chaynsStorage } from '@src/shared/storages/chaynsStorage';
 
 const Popup = () => {
-  const chayns = useStorage(chaynsStorage);
+  const [data, setData] = useState<{
+    isWaiting: boolean;
+    tobitAccessToken?: string;
+    tobitUserId?: number;
+    firstName?: string;
+    lastName?: string;
+    personId?: number;
+    siteId?: string;
+    pageId?: number;
+    locationId?: number;
+  }>({
+    isWaiting: true,
+  });
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p className="text-lime-400">
-          Edit <code>src/pages/popup/Popup.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React!
-        </a>
-      </header>
-    </div>
-  );
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      setData({
+        isWaiting: false,
+        firstName: request.data.appUser?.firstName,
+        lastName: request.data.appUser?.lastName,
+        locationId: request.data.appInfo.locationId,
+        pageId: request.data.appInfo.tappSelected.id,
+        personId: request.data.appUser?.personId,
+        siteId: request.data.appInfo.siteId,
+        tobitAccessToken: request.data.appUser?.tobitAccessToken,
+        tobitUserId: request.data.appUser?.tobitUserId,
+      });
+    });
+
+    return () => {
+      chrome.runtime.onMessage.removeListener(() => {});
+    };
+  }, []);
+
+  return <pre>{JSON.stringify(data, undefined, 2)}</pre>;
 };
 
 export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);
