@@ -1,4 +1,4 @@
-import { Alert, Anchor, Button } from '@mantine/core';
+import { Alert, Anchor } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useChaynsStorage } from '@src/shared/hooks/useChaynsStorage';
 

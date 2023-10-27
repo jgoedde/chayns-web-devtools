@@ -3,10 +3,9 @@ import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
 import { NoChaynsEnvFound } from '@pages/popup/NoChaynsEnvFound';
 import { useChaynsEnvData } from '@pages/popup/useChaynsEnvData';
-import { Anchor, Avatar, Center, Divider, Group, PasswordInput, Table, Title } from '@mantine/core';
+import { Anchor, Avatar, Center, Divider, Group, Table, Title } from '@mantine/core';
 import { WaitingForData } from '@pages/popup/WaitingForData';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
-import { IconBrandAuth0, IconUserScan } from '@tabler/icons-react';
 
 const Popup = () => {
   const { data, isWaiting } = useChaynsEnvData();
