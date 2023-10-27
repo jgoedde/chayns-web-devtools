@@ -3,13 +3,19 @@ import { useChaynsStorage } from '@src/shared/hooks/useChaynsStorage';
 
 export function useChaynsEnvData() {
   const [isTimeout, setIsTimeout] = useState<boolean>(false);
+  const [data] = useChaynsStorage(); // assuming it from some custom hooks or module
 
-  const [data] = useChaynsStorage();
+  const setupTimeout = (delay = 5000) => {
+    const timer = setTimeout(() => {
+      setIsTimeout(true);
+    }, delay);
+
+    // Clear the timer when unmounting.
+    return () => clearTimeout(timer);
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsTimeout(true);
-    }, 5000);
+    setupTimeout();
 
     return () => {
       chrome.runtime.onMessage.removeListener(() => {});
@@ -20,10 +26,7 @@ export function useChaynsEnvData() {
   useEffect(() => {
     if (data.lastQueryTime) {
       setIsTimeout(false);
-
-      setTimeout(() => {
-        setIsTimeout(true);
-      }, 5000);
+      setupTimeout();
     }
   }, [data.lastQueryTime]);
 
