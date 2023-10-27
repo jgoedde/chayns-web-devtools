@@ -1,5 +1,5 @@
 import { useClipboard } from '@mantine/hooks';
-import { Group, Table, Text, Tooltip } from '@mantine/core';
+import { Box, Group, Table, Text, Tooltip } from '@mantine/core';
 import { IconCheck, IconClipboardCopy } from '@tabler/icons-react';
 import React, { FC } from 'react';
 
@@ -26,17 +26,15 @@ export const CopyableDataRow: FC<Props> = ({ label, value }) => {
               <Text>{copied ? 'Kopiert!' : 'Kopieren'}</Text>
             </Group>
           }>
-          <Text
-            onClick={() => {
-              copy(value);
-            }}
-            span
-            style={{
-              borderBottom: '1px dashed #999',
-              textDecoration: 'none',
-            }}>
-            {value}
-          </Text>
+          <Box w={150}>
+            <Text
+              onClick={() => {
+                copy(value);
+              }}
+              truncate={'end'}>
+              {value}
+            </Text>
+          </Box>
         </Tooltip>
       </Table.Td>
     </Table.Tr>
