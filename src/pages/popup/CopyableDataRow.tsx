@@ -1,7 +1,7 @@
 import { useClipboard } from '@mantine/hooks';
-import { Box, Group, Table, Text, Tooltip } from '@mantine/core';
-import { IconCheck, IconClipboardCopy } from '@tabler/icons-react';
+import { Table } from '@mantine/core';
 import React, { FC } from 'react';
+import { CopyableText } from '@pages/popup/CopyableText';
 
 type Props = {
   label: string;
@@ -9,33 +9,14 @@ type Props = {
 };
 
 export const CopyableDataRow: FC<Props> = ({ label, value }) => {
-  const { copied, copy } = useClipboard({ timeout: 5000 });
-
   return (
     <Table.Tr>
       <Table.Td>{label}</Table.Td>
       <Table.Td
-        style={{ cursor: 'pointer' }}
         align={'right'}
         // TODO: Make this configurable
       >
-        <Tooltip
-          label={
-            <Group>
-              <div>{copied ? <IconCheck /> : <IconClipboardCopy />}</div>
-              <Text>{copied ? 'Kopiert!' : 'Kopieren'}</Text>
-            </Group>
-          }>
-          <Box w={150}>
-            <Text
-              onClick={() => {
-                copy(value);
-              }}
-              truncate={'end'}>
-              {value}
-            </Text>
-          </Box>
-        </Tooltip>
+        <CopyableText value={value} />
       </Table.Td>
     </Table.Tr>
   );
