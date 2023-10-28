@@ -1,24 +1,21 @@
-import {
-  Accordion,
-  Alert,
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  Center,
-  Grid,
-  Group,
-  Modal,
-  Paper,
-  TextInput,
-} from '@mantine/core';
+import { Accordion, Alert, Avatar, Button, Center, Group, Modal, TextInput, Text, Table } from '@mantine/core';
 import { IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
-import { CopyableText } from '@pages/popup/CopyableText';
-import { Copyable } from '@pages/popup/Copyable';
+import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
+
+function AccordionLabel({ label, image }: { label: string; image: string }) {
+  return (
+    <Group wrap="nowrap">
+      <Avatar src={image} radius="xl" />
+      <div>
+        <Text>{label}</Text>
+      </div>
+    </Group>
+  );
+}
 
 const fetcher = ([url, token]) =>
   fetch(url, {
@@ -62,8 +59,19 @@ export function PersonFinderButton() {
             {(data?.list ?? []).map(p => (
               <Accordion.Item key={p.personId} value={p.personId}>
                 <Accordion.Control>
-                  {p.firstName} {p.lastName}
+                  <AccordionLabel
+                    label={`${p.firstName} ${p.lastName}`}
+                    image={`https://sub60.tobit.com/u/${p.userId}?size=100`}
+                  />
                 </Accordion.Control>
+                <Accordion.Panel>
+                  <Table>
+                    <Table.Tbody>
+                      <CopyableDataRow label={'PersonId'} value={p.personId} />
+                      <CopyableDataRow label={'UserId'} value={p.userId} />
+                    </Table.Tbody>
+                  </Table>
+                </Accordion.Panel>
               </Accordion.Item>
             ))}
           </Accordion>
