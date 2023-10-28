@@ -16,12 +16,21 @@ export default function App() {
     return JSON.parse(cwScript.textContent.replace('window.cwInfo = ', ''));
   }
 
-  function getPageData() {
-    const scripts = document.querySelector('#__CHAYNS_DATA__');
+  /**
+   * Retrieves the current page ID.
+   *
+   * Caution: This function is not very reliable and may break in the future.
+   *
+   * @returns {number} The current page ID.
+   * @throws {Error} If the tappId attribute is not found.
+   */
+  function getCurrentPageId(): number {
+    const tappId = document
+      .querySelectorAll('div[data-portal-tappid]')?.[0]
+      .attributes.getNamedItem('data-portal-tappid').value;
+    if (tappId == null) throw new Error('Could not find tappId');
 
-    if (scripts == null) throw new Error('Could not find page data script');
-
-    return JSON.parse(scripts.textContent);
+    return Number(tappId);
   }
 
   useEffect(() => {
@@ -32,7 +41,6 @@ export default function App() {
 
       try {
         const chaynsData = getChaynsData();
-        const pageData = getPageData();
 
         setChaynsData({
           isChayns: true,
@@ -41,13 +49,14 @@ export default function App() {
           isAuthorized: chaynsData.user != null,
           lastName: chaynsData.user?.lastName,
           locationId: chaynsData.site.locationId,
-          pageId: pageData.currentPage.id,
+          pageId: getCurrentPageId(),
           personId: chaynsData.user?.personId,
-          siteId: pageData.currentPage.siteId,
+          siteId: chaynsData.site.id,
           tobitAccessToken: chaynsData.user?.tobitAccessToken,
           tobitUserId: chaynsData.user?.id,
         });
       } catch (e) {
+        console.error(e);
         setChaynsData({
           isChayns: false,
         });
