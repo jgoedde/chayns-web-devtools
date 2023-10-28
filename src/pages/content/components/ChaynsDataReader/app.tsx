@@ -55,6 +55,7 @@ export default function App() {
           domain: chaynsData.site.domain,
           firstName: chaynsData.user?.firstName,
           isAuthorized: chaynsData.user != null,
+          locationPersonId: chaynsData.site.locationPersonId,
           lastName: chaynsData.user?.lastName,
           locationId: chaynsData.site.locationId,
           pageId: getCurrentPageId(),
