@@ -28,6 +28,7 @@
     "@mantine/hooks": "^7.1.7",
     "@mantine/notifications": "^7.1.7",
     "@tabler/icons-react": "^2.40.0",
+    "@testing-library/jest-dom": "^6.1.4",
     "construct-style-sheets-polyfill": "^3.1.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
