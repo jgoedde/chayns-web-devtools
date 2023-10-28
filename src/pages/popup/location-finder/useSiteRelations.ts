@@ -1,6 +1,6 @@
 import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
 import useSWR from 'swr';
-import { useIsAccessTokenAvailable } from '@pages/popup/useIsAccessTokenAvailable';
+import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 
 const fetcher = ([url, token]) =>
   fetch(url, {

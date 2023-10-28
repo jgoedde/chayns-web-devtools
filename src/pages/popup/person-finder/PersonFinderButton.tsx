@@ -2,8 +2,8 @@ import { Accordion, Alert, Box, Button, Center, Modal, Table, TextInput } from '
 import { IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
-import { useUserRelations } from '@pages/popup/useUserRelations';
+import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
+import { useUserRelations } from '@pages/popup/person-finder/useUserRelations';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
 import { AccordionLabel } from '@src/shared/AccordionLabel';
 

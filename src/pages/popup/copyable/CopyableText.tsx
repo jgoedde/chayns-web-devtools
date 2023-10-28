@@ -5,6 +5,7 @@ import { useClipboard } from '@mantine/hooks';
 
 type Props = { value: number | string };
 
+// Not happy with that...
 export function CopyableText({ value }: Props) {
   const { copied, copy } = useClipboard({ timeout: 5000 });
 

@@ -2,9 +2,9 @@ import { Accordion, Alert, Anchor, Box, Button, Center, Modal, Table, TextInput 
 import { IconBrandFinder, IconInfoCircle } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
+import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
-import { useSiteRelations } from '@pages/popup/useSiteRelations';
+import { useSiteRelations } from '@pages/popup/location-finder/useSiteRelations';
 import { AccordionLabel } from '@src/shared/AccordionLabel';
 
 export function LocationFinderButton() {

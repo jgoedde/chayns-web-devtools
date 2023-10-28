@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
-import { NoChaynsEnvFound } from '@pages/popup/NoChaynsEnvFound';
-import { useChaynsEnvData } from '@pages/popup/useChaynsEnvData';
+import { NoChaynsEnvFound } from '@pages/popup/chayns-env/NoChaynsEnvFound';
+import { useChaynsEnvData } from '@pages/popup/chayns-env/useChaynsEnvData';
 import { Anchor, Avatar, Box, Center, Divider, Group, Table, Title } from '@mantine/core';
-import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
-import { PersonFinderButton } from '@pages/popup/PersonFinderButton';
-import { LocationFinderButton } from '@pages/popup/LocationFinderButton';
-import { AccessTokenStatus } from '@pages/popup/AccessTokenStatus';
-import { useIsAccessTokenAvailable } from '@pages/popup/useIsAccessTokenAvailable';
+import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
+import { PersonFinderButton } from '@pages/popup/person-finder/PersonFinderButton';
+import { LocationFinderButton } from '@pages/popup/location-finder/LocationFinderButton';
+import { AccessTokenStatus } from '@pages/popup/access-token/AccessTokenStatus';
+import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 
 const Popup = () => {
   const { data } = useChaynsEnvData();

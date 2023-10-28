@@ -1,12 +1,13 @@
 import { Table } from '@mantine/core';
 import React, { FC } from 'react';
-import { CopyableText } from '@pages/popup/CopyableText';
+import { CopyableText } from '@pages/popup/copyable/CopyableText';
 
 type Props = {
   label: string;
   value: number | string;
 };
 
+// Not happy with that...
 export const CopyableDataRow: FC<Props> = ({ label, value }) => {
   return (
     <Table.Tr>
