@@ -8,7 +8,7 @@ export function AccessTokenStatus() {
 
   if (accessToken.saveTime == null || differenceInDays(new Date(), new Date(accessToken.saveTime)) > 1) {
     return (
-      <Alert icon={<IconInfoCircle />} variant={'light'} color={'orange'}>
+      <Alert icon={<IconInfoCircle />} variant={'light'} color={'orange'} data-testid={'access-token-alert'}>
         Du hast derzeit keinen AccessToken gespeichert oder er ist abgelaufen. Sobald Du eine chayns-Seite aufrufst,
         wird er automatisch aktualisiert.
       </Alert>
