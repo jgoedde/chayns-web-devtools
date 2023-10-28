@@ -1,8 +1,9 @@
 import { createChromeStorageStateHookSession } from 'use-chrome-storage';
 
-export const useChaynsSiteDataStorage = createChromeStorageStateHookSession('chayns-data', { isChayns: false } as {
-  lastQueryTime?: number;
-} & (ChaynsAndAuthorized | ChaynsNotAuthorized | NoChayns));
+export const useChaynsSiteDataStorage = createChromeStorageStateHookSession('chayns-data', { isChayns: false } as
+  | ChaynsAndAuthorized
+  | ChaynsNotAuthorized
+  | NoChayns);
 
 export type NoChayns = {
   isChayns: false;

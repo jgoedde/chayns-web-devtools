@@ -1,4 +1,4 @@
-import { Center, Loader, Text } from '@mantine/core';
+import { Center, Text } from '@mantine/core';
 import React from 'react';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
 

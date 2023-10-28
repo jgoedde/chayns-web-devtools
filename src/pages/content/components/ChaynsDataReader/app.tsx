@@ -1,39 +1,61 @@
-import { useEffect } from 'react';
-import humps from 'lodash-humps';
 import { useChaynsSiteDataStorage } from '@src/shared/hooks/useChaynsSiteDataStorage';
+import { useEffect } from 'react';
 
 export default function App() {
-  const [, setData] = useChaynsSiteDataStorage();
+  const [, setChaynsData] = useChaynsSiteDataStorage();
+
+  function getChaynsData() {
+    const scripts = document.querySelectorAll('script');
+    let cwScript: HTMLScriptElement | null = null;
+    scripts.forEach(script => {
+      if (script.innerHTML.includes('window.cwInfo')) cwScript = script;
+    });
+
+    if (cwScript == null) throw new Error('Could not find chayns data script');
+
+    return JSON.parse(cwScript.textContent.replace('window.cwInfo = ', ''));
+  }
+
+  function getPageData() {
+    const scripts = document.querySelector('#__CHAYNS_DATA__');
+
+    if (scripts == null) throw new Error('Could not find page data script');
+
+    return JSON.parse(scripts.textContent);
+  }
+
   useEffect(() => {
-    setData({ isChayns: false });
+    chrome.runtime.onMessage.addListener(request => {
+      if (request.message !== 'getChaynsData') {
+        return;
+      }
 
-    window.addEventListener('message', data => {
-      if (!data.data.includes('TobitAccessToken')) return;
-      const chaynsInfo = humps(JSON.parse(data.data.replace('chayns.ajaxTab.jsoncall:', ''))?.retVal);
+      try {
+        const chaynsData = getChaynsData();
+        const pageData = getPageData();
 
-      const isAuthorized = Object.keys(chaynsInfo.appUser).length > 0;
-
-      setData({
-        isAuthorized: isAuthorized,
-        isChayns: true,
-        domain: chaynsInfo.appInfo.domain,
-        locationId: chaynsInfo.appInfo.locationId,
-        pageId: chaynsInfo.appInfo.tappSelected.id,
-        siteId: chaynsInfo.appInfo.siteId,
-        ...(isAuthorized && {
-          firstName: chaynsInfo.appUser.firstName,
-          lastName: chaynsInfo.appUser.lastName,
-          personId: chaynsInfo.appUser.personId,
-          tobitAccessToken: chaynsInfo.appUser.tobitAccessToken,
-          tobitUserId: chaynsInfo.appUser.tobitUserId,
-        }),
-      });
+        setChaynsData({
+          isChayns: true,
+          domain: chaynsData.site.domain,
+          firstName: chaynsData.user?.firstName,
+          isAuthorized: chaynsData.user != null,
+          lastName: chaynsData.user?.lastName,
+          locationId: chaynsData.site.locationId,
+          pageId: pageData.currentPage.id,
+          personId: chaynsData.user?.personId,
+          siteId: pageData.currentPage.siteId,
+          tobitAccessToken: chaynsData.user?.tobitAccessToken,
+          tobitUserId: chaynsData.user?.id,
+        });
+      } catch (e) {
+        setChaynsData({
+          isChayns: false,
+        });
+      }
     });
 
     return () => {
-      window.removeEventListener('message', () => {
-        console.info('removed event listener');
-      });
+      chrome.runtime.onMessage.removeListener(() => {});
     };
   }, []);
 

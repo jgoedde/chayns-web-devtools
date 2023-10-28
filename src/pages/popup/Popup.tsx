@@ -4,7 +4,6 @@ import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
 import { NoChaynsEnvFound } from '@pages/popup/NoChaynsEnvFound';
 import { useChaynsEnvData } from '@pages/popup/useChaynsEnvData';
 import { Anchor, Avatar, Box, Center, Divider, Group, Table, Title } from '@mantine/core';
-import { WaitingForData } from '@pages/popup/WaitingForData';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
 import { PersonFinderButton } from '@pages/popup/PersonFinderButton';
 import { LocationFinderButton } from '@pages/popup/LocationFinderButton';
@@ -12,12 +11,8 @@ import { AccessTokenStatus } from '@pages/popup/AccessTokenStatus';
 import { useIsAccessTokenAvailable } from '@pages/popup/useIsAccessTokenAvailable';
 
 const Popup = () => {
-  const { data, isWaiting } = useChaynsEnvData();
+  const { data } = useChaynsEnvData();
   const isAccessTokenAvailable = useIsAccessTokenAvailable();
-
-  const renderWaitingForData = () => {
-    return <WaitingForData />;
-  };
 
   const renderNoChaynsEnvFound = () => {
     return <NoChaynsEnvFound />;
@@ -73,8 +68,7 @@ const Popup = () => {
       <Box my={'md'}>
         <AccessTokenStatus />
       </Box>
-      {isWaiting && renderWaitingForData()}
-      {!data.isChayns && !isWaiting && renderNoChaynsEnvFound()}
+      {!data.isChayns && renderNoChaynsEnvFound()}
       {data.isChayns && renderData()}
       {isAccessTokenAvailable && (
         <Box mt={'md'}>

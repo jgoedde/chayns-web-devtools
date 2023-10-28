@@ -14,7 +14,7 @@ export function NoChaynsEnvFound() {
         onClick={() => {
           chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             void chrome.tabs.update(tabs[0].id, { url: tabs[0].url });
-            setChaynsData({ lastQueryTime: Date.now(), isChayns: false });
+            setChaynsData({ isChayns: false });
           });
         }}>
         Erneut versuchen

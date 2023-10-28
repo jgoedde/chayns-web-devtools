@@ -1,4 +1,3 @@
-import { useClipboard } from '@mantine/hooks';
 import { Table } from '@mantine/core';
 import React, { FC } from 'react';
 import { CopyableText } from '@pages/popup/CopyableText';
