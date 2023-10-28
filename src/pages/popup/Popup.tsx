@@ -24,9 +24,12 @@ const Popup = () => {
     return (
       <div>
         <Center mt={'sm'}>
-          <Anchor href={'https://' + data.domain} target={'_blank'}>
-            <Title size={'h2'}>{data.domain}</Title>
-          </Anchor>
+          <Group>
+            <Avatar src={'https://sub60.tobit.com/l/' + data.siteId + '?size=300'} radius={'sm'} />
+            <Anchor href={'https://' + data.domain} target={'_blank'}>
+              <Title size={'h2'}>{data.domain}</Title>
+            </Anchor>
+          </Group>
         </Center>
 
         <Table mt={'md'}>
