@@ -1,21 +1,11 @@
-import { Accordion, Alert, Avatar, Box, Button, Center, Group, Modal, Table, Text, TextInput } from '@mantine/core';
+import { Accordion, Alert, Box, Button, Center, Modal, Table, TextInput } from '@mantine/core';
 import { IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
 import { useUserRelations } from '@pages/popup/useUserRelations';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
-
-function AccordionLabel({ label, image }: { label: string; image: string }) {
-  return (
-    <Group wrap="nowrap">
-      <Avatar src={image} radius="xl" />
-      <div>
-        <Text>{label}</Text>
-      </div>
-    </Group>
-  );
-}
+import { AccordionLabel } from '@src/shared/AccordionLabel';
 
 export function PersonFinderButton() {
   const [opened, { open, close }] = useDisclosure(false);

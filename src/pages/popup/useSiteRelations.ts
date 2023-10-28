@@ -22,7 +22,7 @@ export function useSiteRelations(query: string) {
   const shouldFetch = query !== '' && query.length > 2;
 
   const { data, isLoading, error } = useSWR<{ list: SiteRelation[]; count: number }>(
-    shouldFetch ? [`https://relations.chayns.net/relations/site?query=${query}`, accessToken] : null,
+    shouldFetch ? [`https://relations.chayns.net/relations/site?query=${query}&skip=0&take=5`, accessToken] : null,
     fetcher,
     {
       revalidateOnFocus: false,

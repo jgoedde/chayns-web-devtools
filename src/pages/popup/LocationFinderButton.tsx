@@ -1,22 +1,11 @@
-import { Accordion, Alert, Avatar, Box, Button, Center, Group, Modal, Table, Text, TextInput } from '@mantine/core';
-import { IconBrandFinder, IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
+import { Accordion, Alert, Anchor, Box, Button, Center, Modal, Table, TextInput } from '@mantine/core';
+import { IconBrandFinder, IconInfoCircle } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
-import { useUserRelations } from '@pages/popup/useUserRelations';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
 import { useSiteRelations } from '@pages/popup/useSiteRelations';
-
-function AccordionLabel({ label, image }: { label: string; image: string }) {
-  return (
-    <Group wrap="nowrap">
-      <Avatar src={image} radius="xl" />
-      <div>
-        <Text>{label}</Text>
-      </div>
-    </Group>
-  );
-}
+import { AccordionLabel } from '@src/shared/AccordionLabel';
 
 export function LocationFinderButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -55,6 +44,22 @@ export function LocationFinderButton() {
                           <Table.Tbody>
                             <CopyableDataRow label={'SiteId'} value={p.siteId} />
                             <CopyableDataRow label={'LocationId'} value={p.locationId} />
+                            <Table.Tr>
+                              <Table.Td>Site</Table.Td>
+                              <Table.Td
+                                align={'right'}
+                                // TODO: Make this configurable
+                              >
+                                <Box w={150}>
+                                  <Anchor
+                                    onClick={() =>
+                                      chrome.tabs.create({ url: `https://chayns.net/${p.siteId}`, active: true })
+                                    }>
+                                    Öffnen
+                                  </Anchor>
+                                </Box>{' '}
+                              </Table.Td>
+                            </Table.Tr>
                           </Table.Tbody>
                         </Table>
                       </Accordion.Panel>

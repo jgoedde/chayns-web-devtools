@@ -21,7 +21,9 @@ export function useUserRelations(query: string) {
   const shouldFetch = query !== '';
 
   const { data, isLoading, error } = useSWR<UserRelation[]>(
-    shouldFetch ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, accessToken] : null,
+    shouldFetch
+      ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}&skip=0&take=5`, accessToken]
+      : null,
     fetcher,
     {
       revalidateOnFocus: false,
