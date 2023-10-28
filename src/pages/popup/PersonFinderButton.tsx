@@ -3,7 +3,7 @@ import { IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
-import { useRelations } from '@pages/popup/useRelations';
+import { useUserRelations } from '@pages/popup/useUserRelations';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
 
 function AccordionLabel({ label, image }: { label: string; image: string }) {
@@ -22,7 +22,7 @@ export function PersonFinderButton() {
   const [value, setValue] = useState('');
   const [debounced] = useDebouncedValue(value, 200);
 
-  const { error, isLoading, relations } = useRelations(debounced);
+  const { error, isLoading, relations } = useUserRelations(debounced);
 
   return (
     <>

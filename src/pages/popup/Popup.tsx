@@ -7,6 +7,7 @@ import { Anchor, Avatar, Box, Center, Divider, Group, Table, Title } from '@mant
 import { WaitingForData } from '@pages/popup/WaitingForData';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
 import { PersonFinderButton } from '@pages/popup/PersonFinderButton';
+import { LocationFinderButton } from '@pages/popup/LocationFinderButton';
 
 const Popup = () => {
   const { data, isWaiting } = useChaynsEnvData();
@@ -72,6 +73,7 @@ const Popup = () => {
       {data.isChayns && renderData()}
       <Box mt={'md'}>
         <PersonFinderButton />
+        <LocationFinderButton />
       </Box>
     </>
   );

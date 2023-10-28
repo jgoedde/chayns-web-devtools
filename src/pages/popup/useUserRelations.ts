@@ -8,19 +8,19 @@ const fetcher = ([url, token]) =>
     },
   }).then(res => res.json());
 
-type Relation = {
+type UserRelation = {
   personId: string;
   userId: number;
   firstName: string;
   lastName: string;
 };
 
-export function useRelations(query: string) {
+export function useUserRelations(query: string) {
   const [accessToken] = useTobitAccessTokenStorage();
 
   const shouldFetch = query !== '';
 
-  const { data, isLoading, error } = useSWR<Relation[]>(
+  const { data, isLoading, error } = useSWR<UserRelation[]>(
     shouldFetch ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, accessToken] : null,
     fetcher,
     {
@@ -35,5 +35,3 @@ export function useRelations(query: string) {
     error,
   };
 }
-
-export type TUseRelations = ReturnType<typeof useRelations>;
