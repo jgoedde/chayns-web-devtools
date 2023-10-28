@@ -85,6 +85,7 @@ export default {
     '^@src(.*)$': '<rootDir>/src$1',
     '^@assets(.*)$': '<rootDir>/src/assets$1',
     '^@pages(.*)$': '<rootDir>/src/pages$1',
+    '^@root(.*)$': '<rootDir>$1', // added this line
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
