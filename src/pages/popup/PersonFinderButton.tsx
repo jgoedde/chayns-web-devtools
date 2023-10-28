@@ -27,7 +27,12 @@ export function PersonFinderButton() {
   return (
     <>
       <Modal opened={opened} onClose={close}>
-        <TextInput label={'Person suchen'} value={value} onChange={e => setValue(e.currentTarget.value)} />
+        <TextInput
+          label={'Person suchen'}
+          placeholder={'PersonId, UserId, Vorname, Nachname'}
+          value={value}
+          onChange={e => setValue(e.currentTarget.value)}
+        />
         {error != null ? (
           <Alert variant={'light'} color={'red'} title={'Personen'} icon={<IconInfoCircle />}>
             Die Liste der Personen konnte nicht abgerufen werden. Vermutlich ist dein Access Token abgelaufen.

@@ -8,28 +8,32 @@ const fetcher = ([url, token]) =>
     },
   }).then(res => res.json());
 
+type Relation = {
+  personId: string;
+  userId: number;
+  firstName: string;
+  lastName: string;
+};
+
 export function useRelations(query: string) {
   const [accessToken] = useTobitAccessTokenStorage();
 
-  const { data, isLoading, error } = useSWR<{
-    list: {
-      personId: string;
-      userId: number;
-      firstName: string;
-      lastName: string;
-      relationCount: number;
-      score: number;
-      verified: boolean;
-    }[];
-    count: number;
-  }>([`https://relations.chayns.net/relations/v2/person?skip=0&take=5&query=${query}`, accessToken], fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const shouldFetch = query !== '';
+
+  const { data, isLoading, error } = useSWR<Relation[]>(
+    shouldFetch ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, accessToken] : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
+  );
 
   return {
-    relations: data?.list ?? [],
+    relations: data ?? [],
     isLoading,
     error,
   };
 }
+
+export type TUseRelations = ReturnType<typeof useRelations>;
