@@ -8,9 +8,12 @@ import { WaitingForData } from '@pages/popup/WaitingForData';
 import { CopyableDataRow } from '@pages/popup/CopyableDataRow';
 import { PersonFinderButton } from '@pages/popup/PersonFinderButton';
 import { LocationFinderButton } from '@pages/popup/LocationFinderButton';
+import { AccessTokenStatus } from '@pages/popup/AccessTokenStatus';
+import { useIsAccessTokenAvailable } from '@pages/popup/useIsAccessTokenAvailable';
 
 const Popup = () => {
   const { data, isWaiting } = useChaynsEnvData();
+  const isAccessTokenAvailable = useIsAccessTokenAvailable();
 
   const renderWaitingForData = () => {
     return <WaitingForData />;
@@ -44,7 +47,6 @@ const Popup = () => {
           <>
             <Divider
               my="xs"
-              size={'lg'}
               label={
                 <Group>
                   <Avatar src={'https://sub60.tobit.com/u/' + data.personId + '?size=300'} radius={'sm'} />{' '}
@@ -68,14 +70,20 @@ const Popup = () => {
 
   return (
     <>
+      <Box my={'md'}>
+        <AccessTokenStatus />
+      </Box>
       {isWaiting && renderWaitingForData()}
       {!data.isChayns && !isWaiting && renderNoChaynsEnvFound()}
       {data.isChayns && renderData()}
-      <Box mt={'md'}>
-        <PersonFinderButton />
-        <LocationFinderButton />
-      </Box>
+      {isAccessTokenAvailable && (
+        <Box mt={'md'}>
+          <PersonFinderButton />
+          <LocationFinderButton />
+        </Box>
+      )}
     </>
   );
 };
+
 export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);

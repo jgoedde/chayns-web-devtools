@@ -3,11 +3,12 @@ import { useChaynsSiteDataStorage } from '@src/shared/hooks/useChaynsSiteDataSto
 import { showNotification } from '@mantine/notifications';
 import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
 import { Text } from '@mantine/core';
+import { differenceInDays } from 'date-fns';
 
 export function useChaynsEnvData() {
   const [isTimeout, setIsTimeout] = useState<boolean>(false);
-  const [data] = useChaynsSiteDataStorage(); // assuming it from some custom hooks or module
-  const [, setAccessToken] = useTobitAccessTokenStorage();
+  const [chaynsEnvData] = useChaynsSiteDataStorage();
+  const [accessToken, setAccessToken] = useTobitAccessTokenStorage();
 
   const setupTimeout = (delay = 7500) => {
     const timer = setTimeout(() => {
@@ -28,29 +29,28 @@ export function useChaynsEnvData() {
   }, []);
 
   useEffect(() => {
-    if (data.lastQueryTime) {
+    if (chaynsEnvData.lastQueryTime) {
       setIsTimeout(false);
       setupTimeout();
     }
-  }, [data.lastQueryTime]);
+  }, [chaynsEnvData.lastQueryTime]);
 
   useEffect(() => {
-    if (data.isChayns && data.isAuthorized) {
-      setAccessToken(data.tobitAccessToken);
-      showNotification({
-        title: 'Chayns detected!',
-        message: (
-          <Text size={'xs'}>
-            Dein AccessToken wurde gespeichert. Dadurch kannst Du nun den Person- und LocationFinder nutzen, auch wenn
-            Du Dich nicht auf einer chayns page befindest.
-          </Text>
-        ),
-      });
+    if (chaynsEnvData.isChayns && chaynsEnvData.isAuthorized) {
+      if (differenceInDays(new Date(), new Date(accessToken.saveTime)) > 1) {
+        showNotification({
+          title: 'AccessToken aktualisiert',
+          message: 'Dein AccessToken wurde aktualisiert.',
+          color: 'blue',
+          autoClose: 5000,
+        });
+      }
+      setAccessToken({ accessToken: chaynsEnvData.tobitAccessToken, saveTime: Date.now() });
     }
-  }, [data, setAccessToken]);
+  }, [accessToken.saveTime, chaynsEnvData, setAccessToken]);
 
   return {
-    data,
-    isWaiting: !isTimeout && !data.isChayns,
+    data: chaynsEnvData,
+    isWaiting: !isTimeout && !chaynsEnvData.isChayns,
   };
 }
