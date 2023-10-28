@@ -10,7 +10,7 @@ import { LocationFinderButton } from '@pages/popup/location-finder/LocationFinde
 import { AccessTokenStatus } from '@pages/popup/access-token/AccessTokenStatus';
 import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 import { NotLoggedInAlert } from '@pages/popup/NotLoggedInAlert';
-import { IconBrandGithub, IconSettings } from '@tabler/icons-react';
+import { IconBrandGithub } from '@tabler/icons-react';
 
 const Popup = () => {
   const { data } = useChaynsEnvData();
