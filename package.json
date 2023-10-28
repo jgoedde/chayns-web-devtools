@@ -1,6 +1,6 @@
 {
   "name": "chayns-web-devtools",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Chrome Extension for reading chayns environment from chayns sites.\n\n",
   "license": "MIT",
   "repository": {
