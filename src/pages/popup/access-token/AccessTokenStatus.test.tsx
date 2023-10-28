@@ -1,24 +1,17 @@
-import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
-import { addDays, differenceInDays } from 'date-fns';
 import { AccessTokenStatus } from '@pages/popup/access-token/AccessTokenStatus';
 import '@testing-library/jest-dom';
 import { render, screen } from '@root/test-utils';
+import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 
-jest.mock('@src/shared/hooks/useTobitAccessTokenStorage');
-jest.mock('date-fns/differenceInDays');
+jest.mock('@src/pages/popup/access-token/useIsAccessTokenAvailable.ts');
 
 describe('AccessTokenStatus', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  it('renders the alert message if access token is null or expired', () => {
-    (useTobitAccessTokenStorage as jest.Mock).mockReturnValue([
-      {
-        saveTime: null,
-      },
-    ]);
-    (differenceInDays as jest.Mock).mockReturnValue(2);
+  it('renders the alert message if access token is not available', () => {
+    (useIsAccessTokenAvailable as jest.Mock).mockReturnValue(false);
 
     render(<AccessTokenStatus />);
 
@@ -27,29 +20,8 @@ describe('AccessTokenStatus', () => {
     );
   });
 
-  it('renders the alert message if access token is expired', () => {
-    (useTobitAccessTokenStorage as jest.Mock).mockReturnValue([
-      {
-        saveTime: addDays(new Date(), -3).getTime(),
-      },
-    ]);
-    (differenceInDays as jest.Mock).mockReturnValue(2);
-
-    render(<AccessTokenStatus />);
-
-    expect(screen.getByTestId('access-token-alert')).toHaveTextContent(
-      'Du hast derzeit keinen AccessToken gespeichert',
-    );
-  });
-
-  it('renders null if access token is not expired', () => {
-    const currentDate = new Date();
-    (useTobitAccessTokenStorage as jest.Mock).mockReturnValue([
-      {
-        saveTime: currentDate.toString(),
-      },
-    ]);
-    (differenceInDays as jest.Mock).mockReturnValue(0);
+  it('does not render the alert message if access token is available', () => {
+    (useIsAccessTokenAvailable as jest.Mock).mockReturnValue(true);
 
     const { container } = render(<AccessTokenStatus />);
     expect(container).not.toHaveTextContent('AccessToken');

@@ -1,12 +1,11 @@
 import { Alert } from '@mantine/core';
-import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { differenceInDays } from 'date-fns';
+import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 
 export function AccessTokenStatus() {
-  const [accessToken] = useTobitAccessTokenStorage();
+  const isAccessTokenAvailable = useIsAccessTokenAvailable();
 
-  if (accessToken.saveTime == null || differenceInDays(new Date(), new Date(accessToken.saveTime)) > 1) {
+  if (!isAccessTokenAvailable) {
     return (
       <Alert icon={<IconInfoCircle />} variant={'light'} color={'orange'} data-testid={'access-token-alert'}>
         Du hast derzeit keinen AccessToken gespeichert oder er ist abgelaufen. Sobald Du eine chayns-Seite aufrufst,
