@@ -6,7 +6,7 @@ import { attachTwindStyle } from '@src/shared/style/twind';
 refreshOnUpdate('pages/content');
 
 const root = document.createElement('div');
-root.id = 'chrome-extension-boilerplate-react-vite-content-view-root';
+root.id = 'chayns-web-devtools-content-view-root';
 
 document.body.append(root);
 
