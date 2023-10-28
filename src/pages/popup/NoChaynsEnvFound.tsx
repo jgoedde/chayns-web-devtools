@@ -16,6 +16,10 @@ export function NoChaynsEnvFound() {
             void chrome.tabs.update(tabs[0].id, { url: tabs[0].url });
             setChaynsData({ isChayns: false });
           });
+          // Calls the content script to get the chayns data from the page each time the popup is opened
+          chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            void chrome.tabs.sendMessage(tabs[0].id as number, { message: 'getChaynsData' });
+          });
         }}>
         Erneut versuchen
       </Anchor>
