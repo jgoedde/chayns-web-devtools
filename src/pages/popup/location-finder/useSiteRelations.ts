@@ -2,13 +2,6 @@ import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessToke
 import useSWR from 'swr';
 import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 
-const fetcher = ([url, token]) =>
-  fetch(url, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  }).then(res => res.json());
-
 type SiteRelation = {
   lastLogin?: number;
   locationId: number;
@@ -27,7 +20,12 @@ export function useSiteRelations(query: string) {
     shouldFetch
       ? [`https://relations.chayns.net/relations/site?query=${query}&skip=0&take=15`, tokenStorage.accessToken]
       : null,
-    fetcher,
+    ([url, token]) =>
+      fetch(url, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }).then(res => res.json()),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -40,3 +38,5 @@ export function useSiteRelations(query: string) {
     error,
   };
 }
+
+export type TUseSiteRelations = ReturnType<typeof useSiteRelations>;

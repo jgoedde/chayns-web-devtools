@@ -2,8 +2,14 @@ import { useChaynsSiteDataStorage } from '@src/shared/hooks/useChaynsSiteDataSto
 import { useEffect } from 'react';
 
 export default function App() {
-  const [, setChaynsData] = useChaynsSiteDataStorage();
+  const [, setChaynsData] = useChaynsSiteDataStorage(); // Use the hook to set the chayns data so the popup is synced.
 
+  /**
+   * Retrieves chayns data from the current document.
+   * Caution: This function is not very reliable and may break in the future.
+   *
+   * @throws {Error} If the chayns data script could not be found.
+   */
   function getChaynsData() {
     const scripts = document.querySelectorAll('script');
     let cwScript: HTMLScriptElement | null = null;
@@ -34,6 +40,8 @@ export default function App() {
   }
 
   useEffect(() => {
+    // Wait for incoming messages from the popup.
+    // When the popup opens, this message is emitted, and we query for all the data and set it in the storage.
     chrome.runtime.onMessage.addListener(request => {
       if (request.message !== 'getChaynsData') {
         return;
@@ -56,6 +64,7 @@ export default function App() {
           tobitUserId: chaynsData.user?.id,
         });
       } catch (e) {
+        // This is the case when the page is not a chayns site. But may also occur in the future if the chayns data script is changed.
         console.error(e);
         setChaynsData({
           isChayns: false,
@@ -66,7 +75,7 @@ export default function App() {
     return () => {
       chrome.runtime.onMessage.removeListener(() => {});
     };
-  }, []);
+  }, [setChaynsData]);
 
   return <div />;
 }

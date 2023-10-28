@@ -1,11 +1,10 @@
-import { Accordion, Alert, Anchor, Box, Button, Center, Modal, Table, TextInput } from '@mantine/core';
+import { Accordion, Alert, Box, Button, Center, Modal, TextInput } from '@mantine/core';
 import { IconBrandFinder, IconInfoCircle } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
 import { useSiteRelations } from '@pages/popup/location-finder/useSiteRelations';
-import { AccordionLabel } from '@src/shared/AccordionLabel';
+import { SiteRelationAccordionItem } from '@pages/popup/location-finder/SiteRelationAccordionItem';
 
 export function LocationFinderButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -35,35 +34,11 @@ export function LocationFinderButton() {
               ) : (
                 <Accordion>
                   {relations.map(p => (
-                    <Accordion.Item key={p.siteId} value={p.siteId}>
-                      <Accordion.Control>
-                        <AccordionLabel label={`${p.name}`} image={`https://sub60.tobit.com/l/${p.siteId}?size=100`} />
-                      </Accordion.Control>
-                      <Accordion.Panel>
-                        <Table>
-                          <Table.Tbody>
-                            <CopyableDataRow label={'SiteId'} value={p.siteId} />
-                            <CopyableDataRow label={'LocationId'} value={p.locationId} />
-                            <Table.Tr>
-                              <Table.Td>Site</Table.Td>
-                              <Table.Td
-                                align={'right'}
-                                // TODO: Make this configurable
-                              >
-                                <Box w={150}>
-                                  <Anchor
-                                    onClick={() =>
-                                      chrome.tabs.create({ url: `https://chayns.net/${p.siteId}`, active: true })
-                                    }>
-                                    Öffnen
-                                  </Anchor>
-                                </Box>{' '}
-                              </Table.Td>
-                            </Table.Tr>
-                          </Table.Tbody>
-                        </Table>
-                      </Accordion.Panel>
-                    </Accordion.Item>
+                    <SiteRelationAccordionItem
+                      key={p.siteId}
+                      site={p}
+                      onClick={() => chrome.tabs.create({ url: `https://chayns.net/${p.siteId}`, active: true })}
+                    />
                   ))}
                 </Accordion>
               )}

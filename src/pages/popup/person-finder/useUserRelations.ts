@@ -39,3 +39,5 @@ export function useUserRelations(query: string) {
     error,
   };
 }
+
+export type TUseUserRelations = ReturnType<typeof useUserRelations>;

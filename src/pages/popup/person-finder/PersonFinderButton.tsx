@@ -1,11 +1,10 @@
-import { Accordion, Alert, Box, Button, Center, Modal, Table, TextInput } from '@mantine/core';
+import { Accordion, Alert, Box, Button, Center, Modal, TextInput } from '@mantine/core';
 import { IconInfoCircle, IconUserSearch } from '@tabler/icons-react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
 import { useUserRelations } from '@pages/popup/person-finder/useUserRelations';
 import { CenteredLoader } from '@src/shared/CenteredLoader';
-import { AccordionLabel } from '@src/shared/AccordionLabel';
+import { UserRelationAccordionItem } from '@pages/popup/person-finder/UserRelationAccordionItem';
 
 export function PersonFinderButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -35,22 +34,7 @@ export function PersonFinderButton() {
               ) : (
                 <Accordion>
                   {relations.map(p => (
-                    <Accordion.Item key={p.personId} value={p.personId}>
-                      <Accordion.Control>
-                        <AccordionLabel
-                          label={`${p.firstName} ${p.lastName}`}
-                          image={`https://sub60.tobit.com/u/${p.userId}?size=100`}
-                        />
-                      </Accordion.Control>
-                      <Accordion.Panel>
-                        <Table>
-                          <Table.Tbody>
-                            <CopyableDataRow label={'PersonId'} value={p.personId} />
-                            <CopyableDataRow label={'UserId'} value={p.userId} />
-                          </Table.Tbody>
-                        </Table>
-                      </Accordion.Panel>
-                    </Accordion.Item>
+                    <UserRelationAccordionItem key={p.personId} user={p} />
                   ))}
                 </Accordion>
               )}
