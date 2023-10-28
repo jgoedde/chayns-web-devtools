@@ -3,13 +3,14 @@ import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
 import { NoChaynsEnvFound } from '@pages/popup/chayns-env/NoChaynsEnvFound';
 import { useChaynsEnvData } from '@pages/popup/chayns-env/useChaynsEnvData';
-import { Anchor, Avatar, Box, Center, Divider, Group, Table, Title } from '@mantine/core';
+import { Anchor, Avatar, Box, Button, Center, Divider, Group, Table, Text, Title } from '@mantine/core';
 import { CopyableDataRow } from '@pages/popup/copyable/CopyableDataRow';
 import { PersonFinderButton } from '@pages/popup/person-finder/PersonFinderButton';
 import { LocationFinderButton } from '@pages/popup/location-finder/LocationFinderButton';
 import { AccessTokenStatus } from '@pages/popup/access-token/AccessTokenStatus';
 import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
 import { NotLoggedInAlert } from '@pages/popup/NotLoggedInAlert';
+import { IconBrandGithub, IconSettings } from '@tabler/icons-react';
 
 const Popup = () => {
   const { data } = useChaynsEnvData();
@@ -82,6 +83,25 @@ const Popup = () => {
           <LocationFinderButton />
         </Box>
       )}
+      <Box mt={'md'}>
+        <Divider />
+        <Group>
+          <Text size={'sm'} c={'#999'}>
+            © 2023 | Julian Gödde
+          </Text>
+          <Button
+            variant={'subtle'}
+            c={'gray'}
+            leftSection={<IconBrandGithub />}
+            onClick={() => {
+              void chrome.tabs.create({
+                url: 'https://github.com/jgoedde/chayns-web-devtools',
+              });
+            }}>
+            Github
+          </Button>
+        </Group>
+      </Box>
     </>
   );
 };
