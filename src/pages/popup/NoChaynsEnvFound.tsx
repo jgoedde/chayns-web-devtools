@@ -1,12 +1,12 @@
 import { Alert, Anchor } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { useChaynsStorage } from '@src/shared/hooks/useChaynsStorage';
+import { useChaynsSiteDataStorage } from '@src/shared/hooks/useChaynsSiteDataStorage';
 
 export function NoChaynsEnvFound() {
-  const [, second] = useChaynsStorage();
-  const icon = <IconInfoCircle />;
+  const [, setChaynsData] = useChaynsSiteDataStorage();
+
   return (
-    <Alert variant="light" color="yellow" title="Chayns" icon={icon} my={'md'}>
+    <Alert variant="light" color="yellow" title="Chayns" icon={<IconInfoCircle />} my={'md'}>
       Es wurde kein chayns Environment auf der aktuellen Page gefunden.{' '}
       <Anchor
         size={'sm'}
@@ -14,7 +14,7 @@ export function NoChaynsEnvFound() {
         onClick={() => {
           chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             void chrome.tabs.update(tabs[0].id, { url: tabs[0].url });
-            second({ lastQueryTime: Date.now(), isChayns: false });
+            setChaynsData({ lastQueryTime: Date.now(), isChayns: false });
           });
         }}>
         Erneut versuchen

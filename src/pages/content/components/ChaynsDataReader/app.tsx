@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import humps from 'lodash-humps';
-import { useChaynsStorage } from '@src/shared/hooks/useChaynsStorage';
+import { useChaynsSiteDataStorage } from '@src/shared/hooks/useChaynsSiteDataStorage';
 
 export default function App() {
-  const [, setData] = useChaynsStorage();
+  const [, setData] = useChaynsSiteDataStorage();
   useEffect(() => {
     setData({ isChayns: false });
 
