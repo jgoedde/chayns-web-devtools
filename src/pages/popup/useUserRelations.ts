@@ -1,5 +1,6 @@
 import { useTobitAccessTokenStorage } from '@src/shared/hooks/useTobitAccessTokenStorage';
 import useSWR from 'swr';
+import { useIsAccessTokenAvailable } from '@pages/popup/useIsAccessTokenAvailable';
 
 const fetcher = ([url, token]) =>
   fetch(url, {
@@ -16,13 +17,14 @@ type UserRelation = {
 };
 
 export function useUserRelations(query: string) {
-  const [accessToken] = useTobitAccessTokenStorage();
+  const [tokenStorage] = useTobitAccessTokenStorage();
+  const isAccessTokenAvailable = useIsAccessTokenAvailable();
 
-  const shouldFetch = query !== '';
+  const shouldFetch = query !== '' && isAccessTokenAvailable;
 
   const { data, isLoading, error } = useSWR<UserRelation[]>(
     shouldFetch
-      ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}&skip=0&take=5`, accessToken]
+      ? [`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, tokenStorage.accessToken]
       : null,
     fetcher,
     {
