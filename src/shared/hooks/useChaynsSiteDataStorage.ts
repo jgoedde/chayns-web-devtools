@@ -22,6 +22,7 @@ export type Chayns = {
   siteId: string;
   pageId: number;
   locationId: number;
+  locationPersonId: string;
   domain: string;
 };
 

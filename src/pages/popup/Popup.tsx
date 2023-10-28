@@ -41,6 +41,7 @@ const Popup = () => {
             <CopyableDataRow label={'LocationId'} value={data.locationId} />
             <CopyableDataRow label={'SiteId'} value={data.siteId} />
             <CopyableDataRow label={'PageId'} value={data.pageId} />
+            <CopyableDataRow label={'LocationPersonId'} value={data.locationPersonId} />
             <CopyableDataRow label={'Domain'} value={data.domain} />
           </Table.Tbody>
         </Table>
