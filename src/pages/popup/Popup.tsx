@@ -9,6 +9,7 @@ import { PersonFinderButton } from '@pages/popup/person-finder/PersonFinderButto
 import { LocationFinderButton } from '@pages/popup/location-finder/LocationFinderButton';
 import { AccessTokenStatus } from '@pages/popup/access-token/AccessTokenStatus';
 import { useIsAccessTokenAvailable } from '@pages/popup/access-token/useIsAccessTokenAvailable';
+import { NotLoggedInAlert } from '@pages/popup/NotLoggedInAlert';
 
 const Popup = () => {
   const { data } = useChaynsEnvData();
@@ -31,6 +32,8 @@ const Popup = () => {
             </Anchor>
           </Group>
         </Center>
+
+        {!data.isAuthorized && <NotLoggedInAlert />}
 
         <Table mt={'md'}>
           <Table.Tbody>
