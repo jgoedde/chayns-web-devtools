@@ -1,3 +1,5 @@
+![Tests](https://github.com/jgoedde/chayns-web-devtools/actions/workflows/test.yml/badge.svg)
+
 ## Getting Started
 
 1. Download latest release from [here](https://github.com/jgoedde/chayns-web-devtools/releases)
