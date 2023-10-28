@@ -1,5 +1,6 @@
 import { Center, Loader, Text } from '@mantine/core';
 import React from 'react';
+import { CenteredLoader } from '@src/shared/CenteredLoader';
 
 export function WaitingForData() {
   return (
@@ -7,9 +8,7 @@ export function WaitingForData() {
       <Center mt={'xl'}>
         <Text>Warte auf chayns call...</Text>
       </Center>
-      <Center mt={'md'}>
-        <Loader size={45} />
-      </Center>
+      <CenteredLoader />
     </>
   );
 }
