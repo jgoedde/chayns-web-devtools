@@ -22,3 +22,12 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+window.chrome = {
+  runtime: {
+    onMessage: {
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    },
+    sendMessage: jest.fn(),
+  },
+};
